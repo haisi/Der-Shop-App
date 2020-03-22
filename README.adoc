@@ -1,0 +1,18 @@
+= Der Shop Android Exercise
+
+I use this project to get up to date with the latest Android technologies.
+
+.Technologies Covered
+* [x] DataBinding
+* [ ] Navigation Resource
+* [ ] SafeArgs
+* [ ] Parcelables
+* [ ] ViewModels
+* [ ] LiveData
+* [ ] RecyclerView
+* [ ] Coroutines
+* [ ] DI with Dagger2
+* [ ] HTTP-calls with Retrofit2
+* [ ] Persistence with SQLDelight or Room
+* [ ] Image loading with Coil
+* [ ] UI Testing with Espresso
