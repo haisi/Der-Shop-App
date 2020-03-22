@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import li.selman.dershop.R
+import li.selman.dershop.databinding.FragmentGalleryBinding
+import li.selman.dershop.databinding.FragmentSlideshowBinding
 
 class GalleryFragment : Fragment() {
 
@@ -21,11 +24,14 @@ class GalleryFragment : Fragment() {
     ): View? {
         galleryViewModel =
                 ViewModelProviders.of(this).get(GalleryViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_gallery, container, false)
-        val textView: TextView = root.findViewById(R.id.text_gallery)
+
+        val binding = DataBindingUtil.inflate<FragmentGalleryBinding>(
+            inflater, R.layout.fragment_gallery, container, false
+        )
+
         galleryViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+            binding.textGallery.text = it
         })
-        return root
+        return binding.root
     }
 }
