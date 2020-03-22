@@ -2,9 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+// Annotation processing with Kotlin
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     buildToolsVersion "29.0.3"
+
+    dataBinding {
+        enabled = true
+    }
 
     defaultConfig {
         applicationId "li.selman.dershop"
