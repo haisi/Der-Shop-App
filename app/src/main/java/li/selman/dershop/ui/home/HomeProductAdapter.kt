@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.product_summary_view.view.*
+import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import li.selman.dershop.R
 
 class HomeProductAdapter(private val products: List<String> = emptyList()) :
-    RecyclerView.Adapter<HomeProductAdapter.ProductViewHolder>() {
+    Adapter<ViewHolder>() {
 
-    class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ProductViewHolder(itemView: View) : ViewHolder(itemView) {
         private val discountText: TextView = itemView.findViewById(R.id.discount_percent)
 
         fun bind(item: String) {
@@ -22,7 +22,7 @@ class HomeProductAdapter(private val products: List<String> = emptyList()) :
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.product_summary_view, parent, false)
@@ -30,9 +30,17 @@ class HomeProductAdapter(private val products: List<String> = emptyList()) :
         return ProductViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = products[position]
-        holder.bind(item)
+        when (holder) {
+            is ProductViewHolder -> {
+                holder.bind(item)
+            }
+            else -> {
+                throw IllegalStateException("Unknown ViewHolder of type ${holder.javaClass}")
+            }
+        }
+
     }
 
     override fun getItemCount(): Int = products.size
