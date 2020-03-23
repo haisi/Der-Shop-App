@@ -4,12 +4,13 @@ I use this project to get up to date with the latest Android technologies.
 
 .Technologies Covered
 * [x] DataBinding
+* [x] BindingAdapter
 * [ ] Navigation Resource
 * [ ] SafeArgs
 * [ ] Parcelables
-* [ ] ViewModels
+* [x] ViewModels
 * [ ] LiveData
-* [ ] RecyclerView
+* [x] RecyclerView
 * [ ] Coroutines
 * [ ] DI with Dagger2
 * [ ] HTTP-calls with Retrofit2

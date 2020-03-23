@@ -33,13 +33,8 @@ class HomeProductAdapter :
         override fun bind(item: Product) {
             // If we need access to resources
             val res = itemView.context.resources
-            if (item.hasDiscount()) {
-                binding.discountPercent.text = item.discount.toString()
-            } else {
-                binding.discountPercent.visibility = View.GONE
-            }
-
-            binding.sustainable.text = item.name
+            binding.product = item
+            binding.executePendingBindings()
         }
 
     }

@@ -40,6 +40,7 @@
 
         <TextView
             android:id="@+id/discount_percent"
+            app:discountFormatted="@{product}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -64,6 +65,7 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/discount_percent"
             app:layout_constraintStart_toStartOf="parent"
+            android:text="@{product.name}"
             tools:text="Sustainable" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
