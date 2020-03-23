@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.ListAdapter
 import li.selman.dershop.R
 import li.selman.dershop.ui.util.BindableViewHolder
 import li.selman.dershop.ui.util.Inflatable
 
-class HomeProductAdapter(private val products: List<Product> = emptyList()) :
-    Adapter<BindableViewHolder<Product>>() {
+class HomeProductAdapter :
+    ListAdapter<Product, BindableViewHolder<Product>>(HomeProductDiffCallback()) {
 
     enum class ProductTypes {
         A, B
@@ -18,6 +18,7 @@ class HomeProductAdapter(private val products: List<Product> = emptyList()) :
 
     class ProductViewHolder(itemView: View) : BindableViewHolder<Product>(itemView) {
         private val discountText: TextView = itemView.findViewById(R.id.discount_percent)
+        private val sustainable: TextView = itemView.findViewById(R.id.sustainable)
 
         companion object : Inflatable<Product> {
             override fun inflate(parent: ViewGroup): BindableViewHolder<Product> {
@@ -32,15 +33,20 @@ class HomeProductAdapter(private val products: List<Product> = emptyList()) :
         override fun bind(item: Product) {
             // If we need access to resources
             val res = itemView.context.resources
-            discountText.text = item.discount.toString()
+            if (item.hasDiscount()) {
+                discountText.text = item.discount.toString()
+            } else {
+                discountText.visibility = View.GONE
+            }
+
+            sustainable.text = item.name
         }
 
     }
 
     override fun getItemViewType(position: Int): Int {
-        val item = products[position]
+        val item = getItem(position)
 
-        // TODO item should be a real class and make class check
         return if (item.hasDiscount()) {
             ProductTypes.A.ordinal
         } else {
@@ -60,9 +66,8 @@ class HomeProductAdapter(private val products: List<Product> = emptyList()) :
     }
 
     override fun onBindViewHolder(holder: BindableViewHolder<Product>, position: Int) {
-        val item = products[position]
+        val item = getItem(position)
         holder.bind(item)
     }
 
-    override fun getItemCount(): Int = products.size
 }
