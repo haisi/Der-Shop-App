@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import li.selman.dershop.R
+import li.selman.dershop.databinding.ProductSummaryViewBinding
 import li.selman.dershop.ui.util.BindableViewHolder
 import li.selman.dershop.ui.util.Inflatable
 
@@ -16,17 +17,16 @@ class HomeProductAdapter :
         A, B
     }
 
-    class ProductViewHolder(itemView: View) : BindableViewHolder<Product>(itemView) {
-        private val discountText: TextView = itemView.findViewById(R.id.discount_percent)
-        private val sustainable: TextView = itemView.findViewById(R.id.sustainable)
+    class ProductViewHolder(val binding: ProductSummaryViewBinding) : BindableViewHolder<Product>(binding.root) {
 
         companion object : Inflatable<Product> {
             override fun inflate(parent: ViewGroup): BindableViewHolder<Product> {
-                val view = LayoutInflater
+                val layoutInflater = LayoutInflater
                     .from(parent.context)
-                    .inflate(R.layout.product_summary_view, parent, false)
 
-                return ProductViewHolder(view)
+                val binding = ProductSummaryViewBinding.inflate(layoutInflater, parent, false)
+
+                return ProductViewHolder(binding)
             }
         }
 
@@ -34,12 +34,12 @@ class HomeProductAdapter :
             // If we need access to resources
             val res = itemView.context.resources
             if (item.hasDiscount()) {
-                discountText.text = item.discount.toString()
+                binding.discountPercent.text = item.discount.toString()
             } else {
-                discountText.visibility = View.GONE
+                binding.discountPercent.visibility = View.GONE
             }
 
-            sustainable.text = item.name
+            binding.sustainable.text = item.name
         }
 
     }
