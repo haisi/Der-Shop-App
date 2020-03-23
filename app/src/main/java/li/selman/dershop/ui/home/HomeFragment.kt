@@ -36,7 +36,13 @@ class HomeFragment : Fragment() {
         )
 
         viewManager = GridLayoutManager(this.context, 2)
-        viewAdapter = HomeProductAdapter(listOf("Eins", "Zwei", "Drei"))
+        viewAdapter = HomeProductAdapter(
+            listOf(
+                Product("Eins"),
+                Product("Zwei", 10),
+                Product("Drei")
+            )
+        )
 
         binding.myRecyclerView.apply {
             // use this setting to improve performance if you know that changes
