@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
             inflater, R.layout.fragment_home, container, false
         )
 
-        viewManager = LinearLayoutManager(this.context)
+        viewManager = GridLayoutManager(this.context, 2)
         viewAdapter = HomeProductAdapter(listOf("Eins", "Zwei", "Drei"))
 
         binding.myRecyclerView.apply {
