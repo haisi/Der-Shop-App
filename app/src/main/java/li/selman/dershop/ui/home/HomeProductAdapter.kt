@@ -12,7 +12,14 @@ class HomeProductAdapter(private val products: List<String> = emptyList()) :
     RecyclerView.Adapter<HomeProductAdapter.ProductViewHolder>() {
 
     class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val discountText: TextView = itemView.findViewById(R.id.discount_percent)
+        private val discountText: TextView = itemView.findViewById(R.id.discount_percent)
+
+        fun bind(item: String) {
+            // If we need access to resources
+            val res = itemView.context.resources
+            discountText.text = item
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -25,7 +32,7 @@ class HomeProductAdapter(private val products: List<String> = emptyList()) :
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val item = products[position]
-        holder.discountText.text = item
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int = products.size
