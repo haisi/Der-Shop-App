@@ -5,25 +5,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import li.selman.dershop.R
+import li.selman.dershop.ui.util.BindableViewHolder
+import li.selman.dershop.ui.util.Inflatable
 
 class HomeProductAdapter(private val products: List<String> = emptyList()) :
-    Adapter<ViewHolder>() {
+    Adapter<BindableViewHolder<String>>() {
 
     enum class ProductTypes {
         A, B
     }
 
-    interface Inflatable {
-        fun inflate(parent: ViewGroup) : ViewHolder
-    }
-
-    class ProductViewHolder(itemView: View) : ViewHolder(itemView) {
+    class ProductViewHolder(itemView: View) : BindableViewHolder<String>(itemView) {
         private val discountText: TextView = itemView.findViewById(R.id.discount_percent)
 
-        companion object : Inflatable {
-            override fun inflate(parent: ViewGroup): ViewHolder {
+        companion object : Inflatable<String> {
+            override fun inflate(parent: ViewGroup): BindableViewHolder<String> {
                 val view = LayoutInflater
                     .from(parent.context)
                     .inflate(R.layout.product_summary_view, parent, false)
@@ -32,7 +29,7 @@ class HomeProductAdapter(private val products: List<String> = emptyList()) :
             }
         }
 
-        fun bind(item: String) {
+        override fun bind(item: String) {
             // If we need access to resources
             val res = itemView.context.resources
             discountText.text = item
@@ -51,7 +48,7 @@ class HomeProductAdapter(private val products: List<String> = emptyList()) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindableViewHolder<String> {
         return when (viewType) {
             ProductTypes.A.ordinal -> {
                 ProductViewHolder.inflate(parent)
@@ -62,16 +59,9 @@ class HomeProductAdapter(private val products: List<String> = emptyList()) :
         }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BindableViewHolder<String>, position: Int) {
         val item = products[position]
-        when (holder) {
-            is ProductViewHolder -> {
-                holder.bind(item)
-            }
-            else -> {
-                throw IllegalStateException("Unknown ViewHolder of type ${holder.javaClass}")
-            }
-        }
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int = products.size
