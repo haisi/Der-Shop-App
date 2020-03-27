@@ -6,14 +6,19 @@
     <data>
         <variable
             name="product"
-            type="li.selman.dershop.ui.home.Product" />
+            type="li.selman.dershop.business.product.Product" />
+
+        <variable
+            name="clickListener"
+            type="li.selman.dershop.ui.home.grid.HomeProductAdapter.ProductListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:maxHeight="200dp"
         android:layout_margin="4dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:onClick="@{() -> clickListener.onClick(product)}">
 
         <ImageView
             android:id="@+id/product_image"

@@ -1,4 +1,4 @@
-package li.selman.dershop.ui.home
+package li.selman.dershop.business.product
 
 import java.util.concurrent.atomic.AtomicInteger
 

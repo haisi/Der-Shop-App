@@ -1,9 +1,10 @@
-package li.selman.dershop.ui.home
+package li.selman.dershop.ui.home.grid
 
 import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import li.selman.dershop.business.product.Product
 
 @BindingAdapter("discountFormatted")
 @SuppressLint("SetTextI18n")
