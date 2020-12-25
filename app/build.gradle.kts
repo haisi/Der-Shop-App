@@ -74,3 +74,10 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
 }
+
+detekt {
+    config = files("${rootProject.projectDir}/config/detekt_config.yml")
+    buildUponDefaultConfig = true
+    baseline = file("${rootProject.projectDir}/config/detekt_baseline.xml")
+    autoCorrect = true
+}

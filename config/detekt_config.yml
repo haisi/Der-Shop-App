@@ -1,0 +1,11 @@
+formatting:
+    NoWildcardImports:
+      active: false
+    MaximumLineLength:
+      maxLineLength: 160
+
+style:
+  WildcardImport:
+      active: false
+  MaxLineLength:
+    maxLineLength: 160
