@@ -41,5 +41,4 @@ class HomeProductAdapter(val clickListener: ProductListener) :
         val item = getItem(position)
         holder.bind(item, clickListener)
     }
-
 }

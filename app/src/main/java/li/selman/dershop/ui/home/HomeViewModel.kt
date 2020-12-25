@@ -35,6 +35,7 @@ class HomeViewModel : ViewModel() {
     fun onProductClicked(id: Int) {
         _navigateToProductDetails.value = id
     }
+
     fun onProductDetailsNavigated() {
         _navigateToProductDetails.value = null
     }

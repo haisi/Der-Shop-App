@@ -50,20 +50,21 @@ class HomeFragment : Fragment() {
 
             layoutManager = viewManager
             adapter = viewAdapter
-
         }
 
-        homeViewModel.navigateToProductDetails.observe(this.viewLifecycleOwner, Observer { productId ->
-            productId?.let {
-                Toast.makeText(this.context, "$productId", Toast.LENGTH_SHORT).show()
-                // TODO
+        homeViewModel.navigateToProductDetails.observe(
+            this.viewLifecycleOwner,
+            Observer { productId ->
+                productId?.let {
+                    Toast.makeText(this.context, "$productId", Toast.LENGTH_SHORT).show()
+                    // TODO
 //                this.findNavController().navigate(
 //
 //                )
 
-                homeViewModel.onProductDetailsNavigated()
-            }
-        })
+                    homeViewModel.onProductDetailsNavigated()
+                }
+            })
 
         homeViewModel.products.observe(viewLifecycleOwner, Observer { products ->
             products?.let {

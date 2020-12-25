@@ -35,5 +35,4 @@ class ProductViewHolder private constructor(val binding: ProductSummaryViewBindi
         binding.clickListener = listener
         binding.executePendingBindings()
     }
-
 }
