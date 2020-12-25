@@ -8,8 +8,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -32,8 +31,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         val binding = DataBindingUtil.inflate<FragmentHomeBinding>(
             inflater, R.layout.fragment_home, container, false
@@ -55,7 +53,7 @@ class HomeFragment : Fragment() {
 
         }
 
-        homeViewModel.navigateToProductDetails.observe(this, Observer { productId ->
+        homeViewModel.navigateToProductDetails.observe(this.viewLifecycleOwner, Observer { productId ->
             productId?.let {
                 Toast.makeText(this.context, "$productId", Toast.LENGTH_SHORT).show()
                 // TODO

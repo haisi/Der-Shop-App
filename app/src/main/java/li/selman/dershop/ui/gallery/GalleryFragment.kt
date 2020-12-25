@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import li.selman.dershop.R
 import li.selman.dershop.databinding.FragmentGalleryBinding
@@ -22,8 +23,7 @@ class GalleryFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel::class.java)
+        galleryViewModel = ViewModelProvider(this).get(GalleryViewModel::class.java)
 
         val binding = DataBindingUtil.inflate<FragmentGalleryBinding>(
             inflater, R.layout.fragment_gallery, container, false

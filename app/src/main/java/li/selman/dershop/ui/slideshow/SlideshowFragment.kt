@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import li.selman.dershop.R
 import li.selman.dershop.databinding.FragmentSlideshowBinding
@@ -21,8 +22,7 @@ class SlideshowFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        slideshowViewModel =
-            ViewModelProviders.of(this).get(SlideshowViewModel::class.java)
+        slideshowViewModel = ViewModelProvider(this).get(SlideshowViewModel::class.java)
 
         val binding = DataBindingUtil.inflate<FragmentSlideshowBinding>(
             inflater, R.layout.fragment_slideshow, container, false
