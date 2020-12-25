@@ -49,6 +49,8 @@ android {
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.6.0")
 
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.5")
+
 //    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Support libraries
