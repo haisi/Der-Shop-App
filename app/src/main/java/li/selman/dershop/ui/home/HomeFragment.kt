@@ -5,14 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import li.selman.dershop.R
 import li.selman.dershop.business.product.Product
 import li.selman.dershop.databinding.FragmentHomeBinding
 import li.selman.dershop.ui.home.grid.HomeProductAdapter
@@ -33,9 +31,7 @@ class HomeFragment : Fragment() {
     ): View? {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        val binding = DataBindingUtil.inflate<FragmentHomeBinding>(
-            inflater, R.layout.fragment_home, container, false
-        )
+        val binding = FragmentHomeBinding.inflate(layoutInflater)
 
         viewManager = GridLayoutManager(this.context, 2)
         viewAdapter =
@@ -43,7 +39,7 @@ class HomeFragment : Fragment() {
                 homeViewModel.onProductClicked(productId)
             })
 
-        binding.myRecyclerView.apply {
+        binding.homeRv.apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
@@ -71,8 +67,6 @@ class HomeFragment : Fragment() {
                 viewAdapter.submitList(products)
             }
         })
-
-        binding.lifecycleOwner = this
 
         return binding.root
     }

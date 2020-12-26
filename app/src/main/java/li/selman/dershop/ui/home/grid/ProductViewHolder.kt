@@ -28,11 +28,5 @@ class ProductViewHolder private constructor(val binding: ProductSummaryViewBindi
         if (listener !is HomeProductAdapter.ProductListener) {
             throw Exception("Listener mus be HomeProductAdapter.ProductListener")
         }
-
-        // If we need access to resources
-        val res = itemView.context.resources
-        binding.product = item
-        binding.clickListener = listener
-        binding.executePendingBindings()
     }
 }
