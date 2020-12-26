@@ -4,6 +4,8 @@ plugins {
     kotlin("android.extensions")
     // Annotation processing with Kotlin
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
     id("io.gitlab.arturbosch.detekt") version "1.6.0"
 }
 
@@ -24,9 +26,20 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = mapOf(
+            "crashlyticsEnabled" to false
+        )
     }
 
     buildTypes {
+        getByName("debug") {
+            isDebuggable = true
+            isMinifyEnabled = false
+            firebaseCrashlytics {
+                mappingFileUploadEnabled = false
+            }
+        }
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
@@ -50,6 +63,10 @@ dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.6.0")
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.5")
+    implementation("com.jakewharton.timber:timber:4.7.1")
+
+    implementation("com.google.firebase:firebase-core:18.0.0")
+    implementation("com.google.firebase:firebase-crashlytics-ndk:17.3.0")
 
 //    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
