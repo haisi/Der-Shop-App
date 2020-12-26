@@ -49,6 +49,31 @@ android {
         }
     }
 
+    flavorDimensions("default")
+
+    productFlavors {
+        create("mock")
+        create("dev")
+        create("prod")
+    }
+
+    // Use suffixes for non-prod builds
+    productFlavors.forEach { flavor ->
+        if (flavor.name.equals("prod", true)) return@forEach
+
+        flavor.versionNameSuffix = "-${flavor.name}"
+        flavor.applicationIdSuffix = ".${flavor.name}"
+    }
+
+    // Filter Release variants for dev flavors
+    val devFlavors = listOf("dev", "mock")
+    variantFilter {
+        val isDevFlavor = flavors.any { devFlavors.contains(it.name) }
+        if (buildType.name == "release" && isDevFlavor) {
+            ignore = true
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
