@@ -99,6 +99,8 @@ android {
 }
 
 dependencies {
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.6.0")
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.6")
@@ -106,8 +108,6 @@ dependencies {
 
     implementation("com.google.firebase:firebase-core:18.0.0")
     implementation("com.google.firebase:firebase-crashlytics-ndk:17.3.0")
-
-//    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Support libraries
     implementation("androidx.appcompat:appcompat:1.2.0")
