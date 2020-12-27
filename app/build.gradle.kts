@@ -100,7 +100,7 @@ android {
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.6.0")
 
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.5")
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.6")
     implementation("com.jakewharton.timber:timber:4.7.1")
 
     implementation("com.google.firebase:firebase-core:18.0.0")
