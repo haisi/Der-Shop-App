@@ -25,8 +25,21 @@ object DispatcherModule {
     fun providesMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
 }
 
+/**
+ * Allows you to use [CoroutineDispatcher] as a constructor argument while still specifying the concrete impl. in a compile-time safe way.
+ *
+ * Usage:
+ * ```
+ * class MyRepo
+ *  @Inject constructor(
+ *  @Dispatcher(Type.IO) private val dispatcher: CoroutineDispatcher, // Will use the IO dispatcher in prod; exchangeable for tests.
+ *  ...
+ *  ) {
+ * ```
+ *
+ */
 @Qualifier
-@Retention(AnnotationRetention.RUNTIME)
+@Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.TYPE, AnnotationTarget.FUNCTION, AnnotationTarget.VALUE_PARAMETER)
 annotation class Dispatcher(val value: Type)
 
