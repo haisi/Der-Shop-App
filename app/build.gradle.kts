@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.*
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -7,6 +10,14 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("io.gitlab.arturbosch.detekt") version "1.6.0"
+}
+
+val envFile = rootProject.file(".env")
+val envProperties = Properties()
+if (envFile.exists()) {
+    envProperties.load(FileInputStream(envFile))
+} else {
+    envProperties["NY_TIMES_API_KEY"] = System.getenv("NY_TIMES_API_KEY")
 }
 
 android {
@@ -29,6 +40,8 @@ android {
         manifestPlaceholders = mapOf(
             "crashlyticsEnabled" to false
         )
+
+        buildConfigField("String", "NY_TIMES_API_KEY", envProperties["NY_TIMES_API_KEY"].toString())
     }
 
     buildTypes {
