@@ -10,6 +10,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("io.gitlab.arturbosch.detekt") version "1.6.0"
+    id("dagger.hilt.android.plugin")
 }
 
 val envFile = rootProject.file(".env")
@@ -131,6 +132,15 @@ dependencies {
 
     // Paging 3
     implementation("androidx.paging:paging-runtime:3.0.0-alpha11")
+
+    // DI
+    val hilt_version = "2.28-alpha"
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+
+    val hilt_viewmodels = "1.0.0-alpha01"
+    implementation("androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodels")
+    kapt("androidx.hilt:hilt-compiler:$hilt_viewmodels")
 
     // Async
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
