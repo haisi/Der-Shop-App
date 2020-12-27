@@ -126,6 +126,12 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.2")
     implementation("androidx.navigation:navigation-ui-ktx:2.3.2")
 
+    // Image
+    implementation("com.github.bumptech.glide:glide:4.11.0")
+
+    // Paging 3
+    implementation("androidx.paging:paging-runtime:3.0.0-alpha11")
+
     // Async
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
 
