@@ -2,7 +2,7 @@ package li.selman.dershop.business.popular
 
 import com.squareup.moshi.Json
 
-data class ViewedArticle(
+data class ViewedArticleResponse(
     @Json(name = "id") val id: Long,
     @Json(name = "url") val url: String,
     @Json(name = "title") val title: String,
@@ -18,10 +18,8 @@ data class ViewedArticle(
         data class MediaMetaData(
             @Json(name = "url") val url: String,
             @Json(name = "format") val format: String, // Standard Thumbnail; mediumThreeByTwo210; mediumThreeByTwo440
-            @Json(name = "height")  val height: Int,
+            @Json(name = "height") val height: Int,
             @Json(name = "width") val width: Int
         )
-
     }
-
 }
