@@ -1,4 +1,4 @@
-package li.selman.dershop
+package li.selman.dershop.tech
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
