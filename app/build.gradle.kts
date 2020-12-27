@@ -25,6 +25,7 @@ android {
     buildToolsVersion("30.0.2")
 
     buildFeatures {
+        dataBinding = true
         viewBinding = true
     }
 
@@ -125,10 +126,20 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.2")
     implementation("androidx.navigation:navigation-ui-ktx:2.3.2")
 
+    // Async
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
+
+    // HTTP
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.11.0") // TODO use moshi-kotlin-codegen instead?
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+
     // Testing
     testImplementation("junit:junit:4.13.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.0")
 }
 
 detekt {
