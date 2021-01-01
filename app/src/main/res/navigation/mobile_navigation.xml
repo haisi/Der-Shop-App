@@ -10,34 +10,30 @@
         android:name="li.selman.dershop.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
-
         <action
-            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
-            app:destination="@id/nav_home_second" />
+            android:id="@+id/action_nav_home_to_favouritesFragment"
+            app:destination="@id/favouritesFragment"
+            />
+        <action
+            android:id="@+id/action_nav_home_to_articleFragment"
+            app:destination="@id/articleFragment"
+            />
     </fragment>
     <fragment
-        android:id="@+id/nav_home_second"
-        android:name="li.selman.dershop.ui.home.HomeSecondFragment"
-        android:label="@string/home_second"
-        tools:layout="@layout/fragment_home_second">
+        android:id="@+id/favouritesFragment"
+        android:name="li.selman.dershop.ui.favourite.FavouritesFragment"
+        android:label="fragment_favourites"
+        tools:layout="@layout/fragment_favourites"
+        >
         <action
-            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/nav_home" />
-
-        <argument
-            android:name="myArg"
-            app:argType="string" />
+            android:id="@+id/action_favouritesFragment_to_articleFragment"
+            app:destination="@id/articleFragment"
+            />
     </fragment>
-
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="li.selman.dershop.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="li.selman.dershop.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/articleFragment"
+        android:name="li.selman.dershop.ui.article.ArticleFragment"
+        android:label="fragment_article"
+        tools:layout="@layout/fragment_article"
+        />
 </navigation>
