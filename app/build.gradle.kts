@@ -11,6 +11,7 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("io.gitlab.arturbosch.detekt") version "1.6.0"
     id("dagger.hilt.android.plugin")
+    id("kotlin-android")
 }
 
 val envFile = rootProject.file(".env")
