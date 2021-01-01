@@ -6,7 +6,7 @@ import kotlinx.coroutines.withContext
 import li.selman.dershop.tech.async.Dispatcher
 import li.selman.dershop.tech.async.Type
 import li.selman.dershop.tech.network.NytResult
-import li.selman.dershop.util.Result
+import li.selman.dershop.util.ActionResult
 import javax.inject.Inject
 
 @Suppress("MagicNumber")
@@ -23,13 +23,13 @@ class ArticleRepository
     @Dispatcher(Type.IO) private val dispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun findAllStories(of: MostViewOf): Result<List<ViewedArticleResponse>> = withContext(dispatcher) {
+    suspend fun findAllStories(of: MostViewOf): ActionResult<List<ViewedArticleResponse>> = withContext(dispatcher) {
         delay(2000)
         return@withContext try {
             val response: NytResult<ViewedArticleResponse> = mostPopularApi.fetchMostViewedArticles(of.days)
-            Result.Success(response.results)
+            ActionResult.Success(response.results)
         } catch (ex: Exception) {
-            Result.Error(ex)
+            ActionResult.Error(ex)
         }
     }
 }
