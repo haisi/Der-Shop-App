@@ -15,14 +15,19 @@ class HomeViewModel @ViewModelInject constructor(
     init {
         viewModelScope.launch {
             when (val result = articleRepository.findAllStories(MostViewOf.TODAY)) {
-                is ActionResult.Success -> _articles.value = result.data
+                is ActionResult.Success -> _articles.value = result.data.map(::transformToItemModel)
                 else -> _articles.value = emptyList()
             }
         }
     }
 
-    private val _articles = MutableLiveData<List<ViewedArticleResponse>>(emptyList())
-    val articles: LiveData<List<ViewedArticleResponse>> = _articles
+    private val _articles = MutableLiveData<List<ArticleItem>>(emptyList())
+    val articles: LiveData<List<ArticleItem>> = _articles
 
-    val topArticle: LiveData<ViewedArticleResponse?> = Transformations.map(articles) { it.firstOrNull() }
+    // TODO technically we could turn this into a suspending function and run the transformation off the main-thread
+    private fun transformToItemModel(response: ViewedArticleResponse): ArticleItem {
+        return ArticleItem(
+            title = response.title
+        )
+    }
 }
