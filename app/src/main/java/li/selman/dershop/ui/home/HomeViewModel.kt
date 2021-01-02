@@ -24,10 +24,17 @@ class HomeViewModel @ViewModelInject constructor(
     private val _articles = MutableLiveData<List<ArticleItem>>(emptyList())
     val articles: LiveData<List<ArticleItem>> = _articles
 
+    fun favourite(position: Int) {
+        val list = _articles.value ?: return
+        list[position].favourite = !list[position].favourite
+        _articles.postValue(list)
+    }
+
     // TODO technically we could turn this into a suspending function and run the transformation off the main-thread
     private fun transformToItemModel(response: ViewedArticleResponse): ArticleItem {
         return ArticleItem(
-            title = response.title
+            title = response.title,
+            favourite = false
         )
     }
 }

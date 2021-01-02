@@ -14,7 +14,7 @@ import li.selman.dershop.databinding.FragmentHomeBinding
 import timber.log.Timber
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_home) {
+class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListener {
 
     private val viewModel by viewModels<HomeViewModel>()
 
@@ -35,7 +35,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = HomeAdapter()
+        adapter = HomeAdapter(this as HomeAdapter.OnStoryListener)
         binding.homeRv.adapter = adapter
         binding.homeRv.layoutManager = LinearLayoutManager(context)
 
@@ -53,7 +53,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // Fragment might still be around, e.g. on the back-stack.
         viewModel.articles.observe(viewLifecycleOwner, Observer { articles ->
             adapter.submitList(articles)
+            // TODO Hö, why is my differ not working?!
+            adapter.notifyDataSetChanged()
         })
+    }
+
+    override fun onFavouriteClick(position: Int) {
+        viewModel.favourite(position)
     }
 
     override fun onDestroyView() {

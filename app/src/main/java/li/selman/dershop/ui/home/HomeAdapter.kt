@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import li.selman.dershop.databinding.ItemStoryBinding
 
-class HomeAdapter : ListAdapter<HomeRecyclerItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class HomeAdapter(private val onStoryListener: OnStoryListener) : ListAdapter<HomeRecyclerItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<HomeRecyclerItem>() {
 
             override fun areContentsTheSame(oldItem: HomeRecyclerItem, newItem: HomeRecyclerItem): Boolean {
-                return oldItem == newItem
+                return oldItem.equals(newItem)
             }
 
             override fun areItemsTheSame(oldItem: HomeRecyclerItem, newItem: HomeRecyclerItem): Boolean {
@@ -26,7 +26,7 @@ class HomeAdapter : ListAdapter<HomeRecyclerItem, RecyclerView.ViewHolder>(DIFF_
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (HomeRecyclerItem.ViewType.values()[viewType]) {
-            HomeRecyclerItem.ViewType.ARTICLE -> ArticleViewHolder(ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            HomeRecyclerItem.ViewType.ARTICLE -> ArticleViewHolder(ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false), onStoryListener)
             HomeRecyclerItem.ViewType.HEADER -> TODO()
         }
     }
@@ -45,12 +45,21 @@ class HomeAdapter : ListAdapter<HomeRecyclerItem, RecyclerView.ViewHolder>(DIFF_
         }
     }
 
-    class ArticleViewHolder(private val binding: ItemStoryBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ArticleViewHolder(private val binding: ItemStoryBinding, private val onStoryListener: OnStoryListener) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.favouriteBadge.setOnClickListener { onStoryListener.onFavouriteClick(absoluteAdapterPosition) }
+        }
 
         fun bind(articleItem: ArticleItem) {
             with(binding) {
                 articleTv.text = articleItem.title
+                favouriteBadge.favourite = articleItem.favourite
             }
         }
+    }
+
+    interface OnStoryListener {
+        fun onFavouriteClick(position: Int)
     }
 }
