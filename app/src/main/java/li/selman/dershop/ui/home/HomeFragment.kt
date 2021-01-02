@@ -56,6 +56,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListen
             // TODO Hö, why is my differ not working?!
             adapter.notifyDataSetChanged()
         })
+
+        viewModel.loading.observe(viewLifecycleOwner, Observer { loading ->
+            binding.loadingGroup.visibility = if (loading) View.VISIBLE else View.GONE
+        })
     }
 
     override fun onFavouriteClick(position: Int) {

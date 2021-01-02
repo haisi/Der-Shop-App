@@ -12,17 +12,23 @@ class HomeViewModel @ViewModelInject constructor(
     private val articleRepository: ArticleRepository
 ) : ViewModel() {
 
+    private val _articles = MutableLiveData<List<ArticleItem>>(emptyList())
+    val articles: LiveData<List<ArticleItem>> = _articles
+
+    private val _loading = MutableLiveData<Boolean>(true)
+    val loading: LiveData<Boolean> = _loading
+
     init {
         viewModelScope.launch {
+            _loading.value = true
             when (val result = articleRepository.findAllStories(MostViewOf.TODAY)) {
                 is ActionResult.Success -> _articles.value = result.data.map(::transformToItemModel)
                 else -> _articles.value = emptyList()
             }
+
+            _loading.value = false
         }
     }
-
-    private val _articles = MutableLiveData<List<ArticleItem>>(emptyList())
-    val articles: LiveData<List<ArticleItem>> = _articles
 
     fun favourite(position: Int) {
         val list = _articles.value ?: return
