@@ -35,5 +35,12 @@
         android:name="li.selman.dershop.ui.article.ArticleFragment"
         android:label="fragment_article"
         tools:layout="@layout/fragment_article"
-        />
+        >
+        <argument
+            android:name="articleId"
+            app:argType="long"
+            app:nullable="false"
+            />
+
+    </fragment>
 </navigation>

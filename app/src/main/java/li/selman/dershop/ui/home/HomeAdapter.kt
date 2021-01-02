@@ -50,6 +50,7 @@ class HomeAdapter(private val onStoryListener: OnStoryListener) : ListAdapter<Ho
     class ArticleViewHolder(private val binding: ItemStoryBinding, private val onStoryListener: OnStoryListener) : RecyclerView.ViewHolder(binding.root) {
 
         init {
+            binding.root.setOnClickListener { onStoryListener.onStoryClick(absoluteAdapterPosition) }
             binding.favouriteBadge.setOnClickListener { onStoryListener.onFavouriteClick(absoluteAdapterPosition) }
         }
 
@@ -67,6 +68,7 @@ class HomeAdapter(private val onStoryListener: OnStoryListener) : ListAdapter<Ho
     }
 
     interface OnStoryListener {
+        fun onStoryClick(position: Int)
         fun onFavouriteClick(position: Int)
     }
 }

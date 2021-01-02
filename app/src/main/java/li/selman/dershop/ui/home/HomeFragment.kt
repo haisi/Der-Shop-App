@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import li.selman.dershop.R
 import li.selman.dershop.databinding.FragmentHomeBinding
+import li.selman.dershop.ui.article.ArticleFragment
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -80,6 +83,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListen
                 }
             }
         })
+    }
+
+    override fun onStoryClick(position: Int) {
+        val navController = findNavController()
+        val bundle = bundleOf(ArticleFragment.ARG_ARTICLE_ID to (position.toLong()))
+        navController.navigate(R.id.action_nav_home_to_articleFragment, bundle)
     }
 
     override fun onFavouriteClick(position: Int) {
