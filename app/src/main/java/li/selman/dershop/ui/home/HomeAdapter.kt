@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import li.selman.dershop.R
 import li.selman.dershop.databinding.ItemStoryBinding
 
 class HomeAdapter(private val onStoryListener: OnStoryListener) : ListAdapter<HomeRecyclerItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
@@ -55,6 +57,11 @@ class HomeAdapter(private val onStoryListener: OnStoryListener) : ListAdapter<Ho
             with(binding) {
                 articleTv.text = articleItem.title
                 favouriteBadge.favourite = articleItem.favourite
+                Glide
+                    .with(articleImageButton.context).load(articleItem.imageUrl)
+                    .error(android.R.drawable.stat_notify_error)
+                    .placeholder(R.mipmap.ic_launcher_round)
+                    .into(articleImageButton)
             }
         }
     }

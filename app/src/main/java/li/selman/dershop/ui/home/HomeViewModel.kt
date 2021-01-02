@@ -34,6 +34,7 @@ class HomeViewModel @ViewModelInject constructor(
     private fun transformToItemModel(response: ViewedArticleResponse): ArticleItem {
         return ArticleItem(
             title = response.title,
+            imageUrl = response.media.first().metadata.first { it.format == "mediumThreeByTwo210" }.url,
             favourite = false
         )
     }
