@@ -6,7 +6,13 @@ import kotlinx.coroutines.launch
 import li.selman.dershop.business.popular.ArticleRepository
 import li.selman.dershop.business.popular.MostViewOf
 import li.selman.dershop.business.popular.ViewedArticleResponse
+import li.selman.dershop.ui.util.SingleLiveEvent
 import li.selman.dershop.util.ActionResult
+
+sealed class ChangedFavsEvent {
+    data class Added(val storyId: String) : ChangedFavsEvent()
+    data class Removed(val storyId: String) : ChangedFavsEvent()
+}
 
 class HomeViewModel @ViewModelInject constructor(
     private val articleRepository: ArticleRepository
@@ -17,6 +23,9 @@ class HomeViewModel @ViewModelInject constructor(
 
     private val _loading = MutableLiveData<Boolean>(true)
     val loading: LiveData<Boolean> = _loading
+
+    private val _updatedFavsEvent = SingleLiveEvent<ChangedFavsEvent>()
+    val updatedFavsEvent: LiveData<ChangedFavsEvent> = _updatedFavsEvent
 
     init {
         viewModelScope.launch {
@@ -32,8 +41,13 @@ class HomeViewModel @ViewModelInject constructor(
 
     fun favourite(position: Int) {
         val list = _articles.value ?: return
-        list[position].favourite = !list[position].favourite
+        val articleItem = list[position]
+        articleItem.favourite = !articleItem.favourite
         _articles.postValue(list)
+
+        // TODO pass id instead
+        val event: ChangedFavsEvent = if (articleItem.favourite) ChangedFavsEvent.Added(articleItem.title) else ChangedFavsEvent.Removed(articleItem.title)
+        _updatedFavsEvent.value = event
     }
 
     // TODO technically we could turn this into a suspending function and run the transformation off the main-thread

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import li.selman.dershop.R
 import li.selman.dershop.databinding.FragmentHomeBinding
@@ -59,6 +60,25 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListen
 
         viewModel.loading.observe(viewLifecycleOwner, Observer { loading ->
             binding.loadingGroup.visibility = if (loading) View.VISIBLE else View.GONE
+        })
+
+        viewModel.updatedFavsEvent.observe(viewLifecycleOwner, Observer { event ->
+            when (event) {
+                is ChangedFavsEvent.Removed -> {
+                    Snackbar
+                        .make(binding.root, "Removed ${event.storyId}", Snackbar.LENGTH_LONG)
+                        .setAction("Undo") {
+                            // TODO add undo feature
+                        }.show()
+                }
+                is ChangedFavsEvent.Added -> {
+                    Snackbar
+                        .make(binding.root, "Added ${event.storyId}", Snackbar.LENGTH_LONG)
+                        .setAction("Undo") {
+                            // TODO add undo feature
+                        }.show()
+                }
+            }
         })
     }
 
