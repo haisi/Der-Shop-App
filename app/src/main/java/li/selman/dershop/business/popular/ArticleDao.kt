@@ -1,16 +1,29 @@
 package li.selman.dershop.business.popular
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.lifecycle.LiveData
+import androidx.room.*
 
 @Dao
 interface ArticleDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Query("SELECT * FROM article WHERE id=:id")
+    suspend fun findById(id: Long): ArticleCacheEntity?
+
+    @Update
+    suspend fun update(entity: ArticleCacheEntity)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(articleEntity: ArticleCacheEntity): Long
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAll(vararg articleEntity: ArticleCacheEntity): Array<Long>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAll(articleEntities: List<ArticleCacheEntity>): Array<Long>
+
     @Query("SELECT * FROM article")
-    suspend fun get(): List<ArticleCacheEntity>
+    fun getAll(): LiveData<List<ArticleCacheEntity>>
+
+    @Query("SELECT * FROM article WHERE favourite = 1")
+    suspend fun getAllFavourites(): List<ArticleCacheEntity>
 }

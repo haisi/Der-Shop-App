@@ -14,6 +14,7 @@ import li.selman.dershop.R
 import li.selman.dershop.databinding.FragmentHomeBinding
 import li.selman.dershop.ui.article.ArticleFragment
 import li.selman.dershop.ui.util.viewBinding
+import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListener {
@@ -42,6 +43,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListen
         })
 
         viewModel.loading.observe(viewLifecycleOwner, Observer { loading ->
+            Timber.d("Loading $loading")
             binding.loadingGroup.visibility = if (loading) View.VISIBLE else View.GONE
         })
 

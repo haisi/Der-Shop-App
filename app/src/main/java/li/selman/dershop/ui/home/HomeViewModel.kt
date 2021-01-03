@@ -2,12 +2,12 @@ package li.selman.dershop.ui.home
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
+import li.selman.dershop.business.popular.ArticleCacheEntity
 import li.selman.dershop.business.popular.ArticleRepository
-import li.selman.dershop.business.popular.MostViewOf
-import li.selman.dershop.business.popular.ViewedArticleResponse
 import li.selman.dershop.ui.util.SingleLiveEvent
-import li.selman.dershop.util.ActionResult
+import timber.log.Timber
 
 sealed class ChangedFavsEvent {
     data class Added(val storyId: String) : ChangedFavsEvent()
@@ -18,8 +18,14 @@ class HomeViewModel @ViewModelInject constructor(
     private val articleRepository: ArticleRepository
 ) : ViewModel() {
 
-    private val _articles = MutableLiveData<List<ArticleItem>>(emptyList())
-    val articles: LiveData<List<ArticleItem>> = _articles
+    val articles: LiveData<List<ArticleItem>> = liveData {
+        _loading.postValue(true)
+        val results = Transformations.map(articleRepository.allStories) {
+            _loading.postValue(false) // TODO find more elegant solution, e.g. instead returning concrete type, return wrapper with states
+            it.map(::transformToItemModel)
+        }
+        emitSource(results)
+    }
 
     private val _loading = MutableLiveData<Boolean>(true)
     val loading: LiveData<Boolean> = _loading
@@ -27,23 +33,20 @@ class HomeViewModel @ViewModelInject constructor(
     private val _updatedFavsEvent = SingleLiveEvent<ChangedFavsEvent>()
     val updatedFavsEvent: LiveData<ChangedFavsEvent> = _updatedFavsEvent
 
-    init {
-        viewModelScope.launch {
-            _loading.value = true
-            when (val result = articleRepository.findAllStories(MostViewOf.TODAY)) {
-                is ActionResult.Success -> _articles.value = result.data.map(::transformToItemModel)
-                else -> _articles.value = emptyList()
-            }
-
-            _loading.value = false
-        }
-    }
-
     fun favourite(position: Int) {
-        val list = _articles.value ?: return
-        val articleItem = list[position]
-        articleItem.favourite = !articleItem.favourite
-        _articles.postValue(list)
+
+        val articleItem = articles.value?.get(position) ?: return
+
+        viewModelScope.launch {
+            val article = articleRepository.findArticleById(articleItem.id)
+            Timber.i("Inital $article")
+            article?.let {
+                it.isFavourite = !it.isFavourite
+                articleRepository.update(it)
+                val shouldBeDifferent = articleRepository.findArticleById(articleItem.id)
+                Timber.i("Should be different $shouldBeDifferent")
+            }
+        }
 
         // TODO pass id instead
         val event: ChangedFavsEvent = if (articleItem.favourite) ChangedFavsEvent.Added(articleItem.title) else ChangedFavsEvent.Removed(articleItem.title)
@@ -51,11 +54,12 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     // TODO technically we could turn this into a suspending function and run the transformation off the main-thread
-    private fun transformToItemModel(response: ViewedArticleResponse): ArticleItem {
+    private fun transformToItemModel(entity: ArticleCacheEntity): ArticleItem {
         return ArticleItem(
-            title = response.title,
-            imageUrl = response.media.first().metadata.first { it.format == "mediumThreeByTwo210" }.url,
-            favourite = false
+            id = entity.id,
+            title = entity.title,
+            imageUrl = entity.imageUrl,
+            favourite = entity.isFavourite
         )
     }
 }

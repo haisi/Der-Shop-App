@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 class ArticleCacheEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
-    var id: Long,
+    val id: Long,
     @ColumnInfo(name = "title")
     val title: String,
     @ColumnInfo(name = "article_url")
@@ -16,5 +16,12 @@ class ArticleCacheEntity(
     @ColumnInfo(name = "image_url")
     val imageUrl: String,
     @ColumnInfo(name = "read")
-    var read: Boolean
-)
+    var isRead: Boolean = false,
+    @ColumnInfo(name = "favourite")
+    var isFavourite: Boolean = false
+) {
+
+    override fun toString(): String {
+        return "ArticleCacheEntity(id=$id, title='$title', articleUrl='$articleUrl', imageUrl='$imageUrl', isRead=$isRead, isFavourite=$isFavourite)"
+    }
+}
