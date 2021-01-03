@@ -13,17 +13,17 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import li.selman.dershop.R
 import li.selman.dershop.databinding.ActivityMainBinding
+import li.selman.dershop.ui.util.viewBinding
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    private lateinit var binding: ActivityMainBinding
+    private val binding by viewBinding(ActivityMainBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 

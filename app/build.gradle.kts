@@ -118,6 +118,10 @@ dependencies {
     // Lifecycle
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-runtime:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.2.0")
 
     // Android KTX
     implementation("androidx.core:core-ktx:1.3.2")

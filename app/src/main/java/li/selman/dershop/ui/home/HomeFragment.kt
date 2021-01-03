@@ -1,9 +1,7 @@
 package li.selman.dershop.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,29 +13,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import li.selman.dershop.R
 import li.selman.dershop.databinding.FragmentHomeBinding
 import li.selman.dershop.ui.article.ArticleFragment
-import timber.log.Timber
+import li.selman.dershop.ui.util.viewBinding
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListener {
 
     private val viewModel by viewModels<HomeViewModel>()
 
-    private var _binding: FragmentHomeBinding? = null
-    /**
-     * This property is only valid between [onCreateView] and [onDestroyView]
-     */
-    private val binding get() = _binding!!
-
-    private lateinit var adapter: HomeAdapter
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentHomeBinding.inflate(layoutInflater)
-        return binding.root
-    }
+    private val binding by viewBinding(FragmentHomeBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -90,10 +73,5 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListen
 
     override fun onFavouriteClick(position: Int) {
         viewModel.favourite(position)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
