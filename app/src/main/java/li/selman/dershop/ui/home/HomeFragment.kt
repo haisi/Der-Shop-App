@@ -42,20 +42,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = HomeAdapter(this as HomeAdapter.OnStoryListener)
+        val adapter = HomeAdapter(this as HomeAdapter.OnStoryListener)
         binding.homeRv.adapter = adapter
         binding.homeRv.layoutManager = LinearLayoutManager(context)
 
-        subscribeToLiveData()
-        setupActions()
+        subscribeToLiveData(adapter)
     }
 
-    private fun setupActions() {
-        // TODO: impl
-        Timber.d("setupActions not implemented yet!")
-    }
-
-    private fun subscribeToLiveData() {
+    private fun subscribeToLiveData(adapter: HomeAdapter) {
         // Don't pass the fragment as livecycle owner, as we don't want to update the UI when view of the fragment is destroyed.
         // Fragment might still be around, e.g. on the back-stack.
         viewModel.articles.observe(viewLifecycleOwner, Observer { articles ->
