@@ -9,6 +9,9 @@ interface ArticleDao {
     @Query("SELECT * FROM article WHERE id=:id")
     suspend fun findById(id: Long): ArticleCacheEntity?
 
+    @Query("SELECT * FROM article WHERE id IN (:ids)")
+    fun findAllById(ids: List<Long>): LiveData<List<ArticleCacheEntity>>
+
     @Update
     suspend fun update(entity: ArticleCacheEntity)
 

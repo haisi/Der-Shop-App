@@ -24,6 +24,10 @@ class ArticleRepository
     @Dispatcher(Type.IO) private val dispatcher: CoroutineDispatcher
 ) {
 
+    companion object {
+        private val ARTICLE_ENTITY = ArticleCacheEntity::class.java.name
+    }
+
     suspend fun findArticleById(id: Long): ArticleCacheEntity? = withContext(dispatcher) {
         articleDao.findById(id)
     }
@@ -43,12 +47,15 @@ class ArticleRepository
                 articleUrl = it.url
             )
         }
-        articleDao.insertAll(newArticles)
-        emitSource(articleDao.getAll())
+
+        val updatedRows = articleDao.insertAll(newArticles).count { it > 0 }
+        Timber.i("Inserted '${newArticles.size}'; updated '$updatedRows' rows of $ARTICLE_ENTITY")
+
+        emitSource(articleDao.findAllById(newArticles.map { it.id }))
     }
 
     suspend fun update(entity: ArticleCacheEntity) = withContext(dispatcher) {
         articleDao.update(entity)
-        Timber.i("Updated ${ArticleCacheEntity::class.java.name} with id '${entity.id}'")
+        Timber.i("Updated  with id '${entity.id}'")
     }
 }

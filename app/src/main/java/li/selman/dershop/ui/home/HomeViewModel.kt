@@ -19,7 +19,6 @@ class HomeViewModel @ViewModelInject constructor(
     private val articleRepository: ArticleRepository
 ) : ViewModel() {
 
-    // TODO, now we cannot simply return ALL stories from from the DB
     // TODO save in savedInstance as this is user defined
     private val _selectedTime = MutableLiveData<MostViewOf>(MostViewOf.WEEK)
     val selectedTime: LiveData<MostViewOf> = _selectedTime
