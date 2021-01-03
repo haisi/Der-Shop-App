@@ -1,7 +1,11 @@
 package li.selman.dershop.ui.home
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,6 +26,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListen
     private val viewModel by viewModels<HomeViewModel>()
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,5 +84,26 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListen
 
     override fun onFavouriteClick(position: Int) {
         viewModel.favourite(position)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.action_fetch_today -> {
+                Toast.makeText(context, "Today", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_fetch_week -> {
+                true
+            }
+            R.id.action_fetch_month -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
