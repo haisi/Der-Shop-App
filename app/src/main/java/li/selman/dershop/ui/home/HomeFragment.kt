@@ -23,6 +23,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListen
     private val viewModel by viewModels<HomeViewModel>()
 
     private var _binding: FragmentHomeBinding? = null
+    /**
+     * This property is only valid between [onCreateView] and [onDestroyView]
+     */
     private val binding get() = _binding!!
 
     private lateinit var adapter: HomeAdapter
