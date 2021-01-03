@@ -3,7 +3,6 @@ package li.selman.dershop.business.popular
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import li.selman.dershop.tech.async.Dispatcher
 import li.selman.dershop.tech.async.Type
@@ -31,15 +30,15 @@ class ArticleRepository
 
     // TODO liveData for MostViewOf and then use switchMap to load stories accordingly
 
-    val allStories: LiveData<List<ArticleCacheEntity>> = liveData {
+    fun allStoriesOf(time: MostViewOf): LiveData<List<ArticleCacheEntity>> = liveData {
         // TODO, I could also empty differnet states
         // TODO check whether I am really off the main thread
         // See https://developer.android.com/topic/libraries/architecture/coroutines
-        val response: NytResult<ViewedArticleResponse> = mostPopularApi.fetchMostViewedArticles(MostViewOf.TODAY.days)
+        val response: NytResult<ViewedArticleResponse> = mostPopularApi.fetchMostViewedArticles(time.days)
         val newArticles = response.results.map {
             ArticleCacheEntity(
                 id = it.id,
-                imageUrl = it.media.first().metadata.first { it.format == "mediumThreeByTwo210" }.url,
+                imageUrl = it.media.firstOrNull()?.metadata?.firstOrNull() { it.format == "mediumThreeByTwo210" }?.url ?: "",
                 title = it.title,
                 articleUrl = it.url
             )

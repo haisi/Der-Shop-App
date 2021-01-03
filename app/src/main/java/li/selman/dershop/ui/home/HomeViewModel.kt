@@ -1,11 +1,12 @@
 package li.selman.dershop.ui.home
 
+import androidx.annotation.MainThread
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import li.selman.dershop.business.popular.ArticleCacheEntity
 import li.selman.dershop.business.popular.ArticleRepository
+import li.selman.dershop.business.popular.MostViewOf
 import li.selman.dershop.ui.util.SingleLiveEvent
 import timber.log.Timber
 
@@ -18,13 +19,17 @@ class HomeViewModel @ViewModelInject constructor(
     private val articleRepository: ArticleRepository
 ) : ViewModel() {
 
-    val articles: LiveData<List<ArticleItem>> = liveData {
+    // TODO, now we cannot simply return ALL stories from from the DB
+    // TODO save in savedInstance as this is user defined
+    private val _selectedTime = MutableLiveData<MostViewOf>(MostViewOf.WEEK)
+    val selectedTime: LiveData<MostViewOf> = _selectedTime
+
+    val articles = Transformations.switchMap(selectedTime) { time ->
         _loading.postValue(true)
-        val results = Transformations.map(articleRepository.allStories) {
+        Transformations.map(articleRepository.allStoriesOf(time)) {
             _loading.postValue(false) // TODO find more elegant solution, e.g. instead returning concrete type, return wrapper with states
             it.map(::transformToItemModel)
         }
-        emitSource(results)
     }
 
     private val _loading = MutableLiveData<Boolean>(true)
@@ -33,8 +38,8 @@ class HomeViewModel @ViewModelInject constructor(
     private val _updatedFavsEvent = SingleLiveEvent<ChangedFavsEvent>()
     val updatedFavsEvent: LiveData<ChangedFavsEvent> = _updatedFavsEvent
 
+    @MainThread
     fun favourite(position: Int) {
-
         val articleItem = articles.value?.get(position) ?: return
 
         viewModelScope.launch {
@@ -51,6 +56,11 @@ class HomeViewModel @ViewModelInject constructor(
         // TODO pass id instead
         val event: ChangedFavsEvent = if (articleItem.favourite) ChangedFavsEvent.Added(articleItem.title) else ChangedFavsEvent.Removed(articleItem.title)
         _updatedFavsEvent.value = event
+    }
+
+    @MainThread
+    fun changeStoryTime(today: MostViewOf) {
+        _selectedTime.value = today
     }
 
     // TODO technically we could turn this into a suspending function and run the transformation off the main-thread

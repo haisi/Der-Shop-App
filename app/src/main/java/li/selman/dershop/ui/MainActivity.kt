@@ -1,8 +1,6 @@
 package li.selman.dershop.ui
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
 import androidx.appcompat.app.AppCompatActivity

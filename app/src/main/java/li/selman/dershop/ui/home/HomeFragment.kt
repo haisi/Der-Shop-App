@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import li.selman.dershop.R
+import li.selman.dershop.business.popular.MostViewOf
 import li.selman.dershop.databinding.FragmentHomeBinding
 import li.selman.dershop.ui.article.ArticleFragment
 import li.selman.dershop.ui.util.viewBinding
@@ -92,15 +92,17 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListen
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
+        return when (item.itemId) {
             R.id.action_fetch_today -> {
-                Toast.makeText(context, "Today", Toast.LENGTH_SHORT).show()
+                viewModel.changeStoryTime(MostViewOf.TODAY)
                 true
             }
             R.id.action_fetch_week -> {
+                viewModel.changeStoryTime(MostViewOf.WEEK)
                 true
             }
             R.id.action_fetch_month -> {
+                viewModel.changeStoryTime(MostViewOf.MONTH)
                 true
             }
             else -> super.onOptionsItemSelected(item)
