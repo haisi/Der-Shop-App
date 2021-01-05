@@ -9,8 +9,7 @@ interface MostPopularApi {
 
     /**
      * [days] can be either 1, 7 or 30
-     * TODO: https://medium.com/tedpark-developer/how-to-use-enum-with-retrofit-query-path-d9c14b93d68f
      */
     @GET("mostpopular/v2/viewed/{days}.json")
-    suspend fun fetchMostViewedArticles(@Path("days") days: Int): NytResult<ViewedArticleResponse>
+    suspend fun fetchMostViewedArticles(@Path("days") days: MostViewOf): NytResult<ViewedArticleResponse>
 }

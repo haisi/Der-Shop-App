@@ -38,7 +38,7 @@ class ArticleRepository
         // TODO, I could also empty differnet states
         // TODO check whether I am really off the main thread
         // See https://developer.android.com/topic/libraries/architecture/coroutines
-        val response: NytResult<ViewedArticleResponse> = mostPopularApi.fetchMostViewedArticles(time.days)
+        val response: NytResult<ViewedArticleResponse> = mostPopularApi.fetchMostViewedArticles(time)
         val newArticles = response.results.map {
             ArticleCacheEntity(
                 id = it.id,
