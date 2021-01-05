@@ -5,9 +5,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,14 +15,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import li.selman.dershop.R
 import li.selman.dershop.business.popular.MostViewOf
 import li.selman.dershop.databinding.FragmentHomeBinding
-import li.selman.dershop.ui.article.ArticleFragment
 import li.selman.dershop.ui.util.viewBinding
 import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListener {
 
-    private val viewModel by viewModels<HomeViewModel>()
+    private val viewModel by activityViewModels<HomeViewModel>()
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
 
@@ -78,8 +76,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeAdapter.OnStoryListen
 
     override fun onStoryClick(position: Int) {
         val navController = findNavController()
-        val bundle = bundleOf(ArticleFragment.ARG_ARTICLE_ID to (position.toLong()))
-        navController.navigate(R.id.action_nav_home_to_articleFragment, bundle)
+        val action = HomeFragmentDirections.showArticleDetails(articleId = position.toLong())
+        navController.navigate(action)
     }
 
     override fun onFavouriteClick(position: Int) {
