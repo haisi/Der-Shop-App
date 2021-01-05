@@ -1,6 +1,7 @@
 package li.selman.dershop.ui.home
 
 import androidx.annotation.MainThread
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
@@ -16,11 +17,11 @@ sealed class ChangedFavsEvent {
 }
 
 class HomeViewModel @ViewModelInject constructor(
-    private val articleRepository: ArticleRepository
+    private val articleRepository: ArticleRepository,
+    @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    // TODO save in savedInstance as this is user defined
-    private val _selectedTime = MutableLiveData<MostViewOf>(MostViewOf.WEEK)
+    private val _selectedTime: MutableLiveData<MostViewOf> = savedStateHandle.getLiveData<MostViewOf>("selected_time", MostViewOf.WEEK)
     val selectedTime: LiveData<MostViewOf> = _selectedTime
 
     val articles = Transformations.switchMap(selectedTime) { time ->
@@ -58,8 +59,8 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     @MainThread
-    fun changeStoryTime(today: MostViewOf) {
-        _selectedTime.value = today
+    fun changeStoryTime(time: MostViewOf) {
+        _selectedTime.value = time
     }
 
     // TODO technically we could turn this into a suspending function and run the transformation off the main-thread
