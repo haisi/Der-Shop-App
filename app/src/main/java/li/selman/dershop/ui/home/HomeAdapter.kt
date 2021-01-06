@@ -50,8 +50,14 @@ class HomeAdapter(private val onStoryListener: OnStoryListener) : ListAdapter<Ho
     class ArticleViewHolder(private val binding: ItemStoryBinding, private val onStoryListener: OnStoryListener) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-            binding.root.setOnClickListener { onStoryListener.onStoryClick(absoluteAdapterPosition) }
-            binding.favouriteBadge.setOnClickListener { onStoryListener.onFavouriteClick(absoluteAdapterPosition) }
+            binding.root.setOnClickListener {
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                onStoryListener.onStoryClick(absoluteAdapterPosition)
+            }
+            binding.favouriteBadge.setOnClickListener {
+                if (absoluteAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+                onStoryListener.onFavouriteClick(absoluteAdapterPosition)
+            }
         }
 
         fun bind(articleItem: ArticleItem) {
