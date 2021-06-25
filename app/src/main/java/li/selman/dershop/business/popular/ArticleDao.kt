@@ -2,6 +2,7 @@ package li.selman.dershop.business.popular
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArticleDao {
@@ -10,7 +11,7 @@ interface ArticleDao {
     suspend fun findById(id: Long): ArticleCacheEntity?
 
     @Query("SELECT * FROM article WHERE id IN (:ids)")
-    fun findAllById(ids: List<Long>): LiveData<List<ArticleCacheEntity>>
+    fun findAllById(ids: List<Long>): Flow<List<ArticleCacheEntity>>
 
     @Update
     suspend fun update(entity: ArticleCacheEntity)

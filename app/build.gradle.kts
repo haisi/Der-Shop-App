@@ -123,6 +123,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
     implementation("androidx.lifecycle:lifecycle-common-java8:2.2.0")
+    // Lifecycle — custom utils
+//    implementation("com.github.Zhuinden:livedata-combinetuple-kt:1.2.0")
+//    implementation("com.github.Zhuinden:livedata-validateby-kt:2.1.0")
 
     // Android KTX
     implementation("androidx.core:core-ktx:1.3.2")

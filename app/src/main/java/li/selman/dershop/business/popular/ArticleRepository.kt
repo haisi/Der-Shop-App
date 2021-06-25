@@ -3,6 +3,9 @@ package li.selman.dershop.business.popular
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import li.selman.dershop.tech.async.Dispatcher
 import li.selman.dershop.tech.async.Type
@@ -34,10 +37,13 @@ class ArticleRepository
 
     // TODO liveData for MostViewOf and then use switchMap to load stories accordingly
 
-    fun allStoriesOf(time: MostViewOf): LiveData<List<ArticleCacheEntity>> = liveData {
+    fun allStoriesOf(time: MostViewOf): Flow<List<ArticleCacheEntity>> = flow {
         // TODO, I could also empty differnet states
         // TODO check whether I am really off the main thread
         // See https://developer.android.com/topic/libraries/architecture/coroutines
+
+        Timber.i("allStoresi")
+
         val response: NytResult<ViewedArticleResponse> = mostPopularApi.fetchMostViewedArticles(time)
         val newArticles = response.results.map {
             ArticleCacheEntity(
@@ -51,7 +57,7 @@ class ArticleRepository
         val updatedRows = articleDao.insertAll(newArticles).count { it > 0 }
         Timber.i("Inserted '${newArticles.size}'; updated '$updatedRows' rows of $ARTICLE_ENTITY")
 
-        emitSource(articleDao.findAllById(newArticles.map { it.id }))
+        emitAll(articleDao.findAllById(newArticles.map { it.id }))
     }
 
     suspend fun update(entity: ArticleCacheEntity) = withContext(dispatcher) {

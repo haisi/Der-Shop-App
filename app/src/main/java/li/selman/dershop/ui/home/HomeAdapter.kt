@@ -2,6 +2,7 @@ package li.selman.dershop.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,8 @@ import com.bumptech.glide.Glide
 import li.selman.dershop.R
 import li.selman.dershop.databinding.ItemStoryBinding
 
+// Impl. filtering wiht SearchView
+// https://www.youtube.com/watch?v=sJ-Z9G0SDhc
 class HomeAdapter(private val onStoryListener: OnStoryListener) : ListAdapter<HomeRecyclerItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -46,6 +49,18 @@ class HomeAdapter(private val onStoryListener: OnStoryListener) : ListAdapter<Ho
             }
         }
     }
+
+    private val filter = object : Filter() {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            TODO("Not yet implemented")
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            TODO("Not yet implemented")
+        }
+
+    }
+
 
     class ArticleViewHolder(private val binding: ItemStoryBinding, private val onStoryListener: OnStoryListener) : RecyclerView.ViewHolder(binding.root) {
 
